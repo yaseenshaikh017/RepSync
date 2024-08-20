@@ -1,0 +1,265 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+header {
+    background-color: #333;
+    color: #00e5ff;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeInDown 1s ease-in-out;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    animation: glow 1.5s infinite alternate;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+header nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+header nav ul li a {
+    color: #00e5ff;
+    text-decoration: none;
+    font-weight: bold;
+    animation: fadeIn 1.2s ease-in-out;
+    transition: color 0.3s ease-in-out;
+}
+
+header nav ul li a:hover {
+    color: #00e5ff;
+}
+
+main {
+    padding: 20px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.login-container, .model-selection-container, .model-container {
+    max-width: 600px;
+    margin: auto;
+    background: #222;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.login-container h2, .model-selection-container h2, .model-container h2 {
+    text-align: center;
+    color: #00e5ff;
+    font-size: 2rem;
+    animation: zoomIn 0.8s ease-in-out;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #111;
+    color: #fff;
+    animation: slideInLeft 1.2s ease-in-out;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #00e5ff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.8);
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00e5ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+    animation: slideInRight 1.2s ease-in-out;
+}
+
+form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+}
+
+.models {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.model {
+    text-align: center;
+    margin: 10px;
+    animation: bounceIn 1.2s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+}
+
+.model img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.model img:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+    border: 2px solid #00e5ff;
+}
+
+.model p {
+    color: #00e5ff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    animation: zoomIn 1.2s ease-in-out;
+    transition: color 0.3s ease-in-out;
+}
+
+.model:hover {
+    transform: translateY(-10px);
+}
+
+.model p:hover {
+    color: #50fa7b;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 20px;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+.controls button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.controls button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounceIn {
+    from, 20%, 40%, 60%, 80%, to {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff, 0 0 50px #00e5ff;
+    }
+    to {
+        text-shadow: 0 0 20px #00e5ff, 0 0 30px #00e5ff, 0 0 40px #00e5ff, 0 0 50px #00e5ff, 0 0 60px #00e5ff;
+    }
+}

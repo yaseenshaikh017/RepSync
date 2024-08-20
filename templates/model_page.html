@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ model_name }}{% endblock %}
+
+{% block content %}
+<div class="model-container" data-model-name="{{ model_name|lower }}">
+    <h2>{{ model_name }} Exercise</h2>
+    <div class="model-output" style="text-align: center;">
+        <img id="video-feed" src="{{ url_for('overheadshoulderpress_app.video_feed_overheadshoulderpress') }}" alt="Camera Feed" style="width: 100%; max-width: 640px; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    </div>
+    <div class="controls" style="text-align: center; margin-top: 20px;">
+        <p>Reps: <span id="reps-count">0</span></p>
+        <p>High Score: <span id="highscore-count">0</span></p>
+        <button id="reset-button" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Reset</button>
+    </div>
+</div>
+{% endblock %}

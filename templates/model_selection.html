@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Model Selection{% endblock %}
+
+{% block content %}
+<div class="model-selection-container">
+    <h2>Select an Exercise Model</h2>
+    <div class="models">
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='bicepcurl') }}">
+                <img src="{{ url_for('static', filename='images/bicepcurl.png') }}" alt="Bicep Curl">
+                <p style="color: #00e5ff;">Bicep Curl</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='calfraises') }}">
+                <img src="{{ url_for('static', filename='images/calfraises.png') }}" alt="Calf Raises">
+                <p style="color: #00e5ff;">Calf Raises</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='crunches') }}">
+                <img src="{{ url_for('static', filename='images/crunches.png') }}" alt="Crunches">
+                <p style="color: #00e5ff;">Crunches</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='bentoverrows') }}">
+                <img src="{{ url_for('static', filename='images/bentoverrows.png') }}" alt="Bent-Over Rows">
+                <p style="color: #00e5ff;">Bent-Over Rows</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='frontraises') }}">
+                <img src="{{ url_for('static', filename='images/frontraises.png') }}" alt="Front Raises">
+                <p style="color: #00e5ff;">Front Raises</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='lateralraises') }}">
+                <img src="{{ url_for('static', filename='images/lateralraises.png') }}" alt="Lateral Raises">
+                <p style="color: #00e5ff;">Lateral Raises</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='lunges') }}">
+                <img src="{{ url_for('static', filename='images/lunges.png') }}" alt="Lunges">
+                <p style="color: #00e5ff;">Lunges</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='overheadshoulderpress') }}">
+                <img src="{{ url_for('static', filename='images/overheadshoulderpress.png') }}" alt="Overhead Shoulder Press">
+                <p style="color: #00e5ff;">Overhead Shoulder Press</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='planks') }}">
+                <img src="{{ url_for('static', filename='images/planks.png') }}" alt="Planks">
+                <p style="color: #00e5ff;">Planks</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='pushups') }}">
+                <img src="{{ url_for('static', filename='images/pushups.png') }}" alt="Push-Ups">
+                <p style="color: #00e5ff;">Push-Ups</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='squats') }}">
+                <img src="{{ url_for('static', filename='images/squats.png') }}" alt="Squats">
+                <p style="color: #00e5ff;">Squats</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='standingsidecrunches') }}">
+                <img src="{{ url_for('static', filename='images/standingsidecrunches.png') }}" alt="Standing Side Crunches">
+                <p style="color: #00e5ff;">Standing Side Crunches</p>
+            </a>
+        </div>
+        <div class="model">
+            <a href="{{ url_for('model_page', model_name='uprightrows') }}">
+                <img src="{{ url_for('static', filename='images/uprightrows.png') }}" alt="Upright Rows">
+                <p style="color: #00e5ff;">Upright Rows</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
