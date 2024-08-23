@@ -1,37 +1,39 @@
-from flask import Blueprint, render_template, Response, jsonify, request
+import numpy as np
 import cv2
 import mediapipe as mp
-import numpy as np
+from flask import Blueprint, render_template, Response, jsonify, request
 
-# Create a Blueprint for the squat exercise
 squats_app = Blueprint('squats_app', __name__)
 
-# Initialize MediaPipe
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5)
 
-# Global variables
 counter = 0
 stage = None
 high_score = 0
+hold_frames = 0
 
 def calculate_angle(a, b, c):
-    a = np.array(a)  # First point
-    b = np.array(b)  # Mid point
-    c = np.array(c)  # End point
-    
+    a = np.array(a)
+    b = np.array(b)
+    c = np.array(c)
     radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
     angle = np.abs(radians * 180.0 / np.pi)
-    
     if angle > 180.0:
         angle = 360 - angle
-        
-    return angle 
+    return angle
+
+def smooth_angle(angle, previous_angle, alpha=0.2):
+    if previous_angle is None:
+        return angle
+    return alpha * angle + (1 - alpha) * previous_angle
 
 def gen_frames():
-    global counter, stage, high_score
-    cap = cv2.VideoCapture(0)  # Open the camera
+    global counter, stage, high_score, hold_frames
+    cap = cv2.VideoCapture(0)
+    prev_knee_angle = None
+    prev_hip_angle = None
 
     while True:
         ret, frame = cap.read()
@@ -39,7 +41,7 @@ def gen_frames():
             print("Failed to grab frame")
             break
 
-        frame = cv2.resize(frame, (640, 480))  # Resize the frame for display
+        frame = cv2.resize(frame, (640, 480))
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = pose.process(image)
 
@@ -50,28 +52,43 @@ def gen_frames():
 
             try:
                 landmarks = results.pose_landmarks.landmark
-                
-                # Get coordinates for the left hip, knee, and ankle
-                hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, 
+
+                shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
+                            landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+                hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
                        landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-                knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, 
+                knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x,
                         landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
-                ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, 
+                ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,
                          landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
-                
-                # Calculate angle
-                angle = calculate_angle(hip, knee, ankle)
-                
-                # Squat counter logic
-                if angle > 160:
-                    stage = "up"
-                if angle < 90 and stage == 'up':
-                    stage = "down"
+
+                knee_angle = calculate_angle(hip, knee, ankle)
+                hip_angle = calculate_angle(shoulder, hip, knee)
+
+                knee_angle = smooth_angle(knee_angle, prev_knee_angle)
+                hip_angle = smooth_angle(hip_angle, prev_hip_angle)
+
+                prev_knee_angle = knee_angle
+                prev_hip_angle = hip_angle
+
+                min_knee_angle = 70
+                max_knee_angle = 160
+                min_hip_angle = 160
+                max_hip_angle = 70
+
+                if stage == "up" and knee_angle < min_knee_angle and max_hip_angle < hip_angle < min_hip_angle:
+                    hold_frames += 1
+                    if hold_frames > 3:
+                        stage = "down"
+                        hold_frames = 0
+                elif stage == "down" and knee_angle > max_knee_angle and hip_angle > min_hip_angle:
                     counter += 1
+                    stage = "up"
+                    hold_frames = 0
                     print(f"Reps: {counter}")
                     if counter > high_score:
                         high_score = counter
-                       
+
             except Exception as e:
                 print(f"Error: {e}")
 
@@ -97,13 +114,15 @@ def update_data_squats():
 
 @squats_app.route('/reset_counter_squats', methods=['POST'])
 def reset_counter_squats():
-    global counter, stage
-    counter = 0  # Reset the reps counter only
+    global counter, stage, hold_frames
+    counter = 0
     stage = None
+    hold_frames = 0
     return jsonify(success=True)
 
 def reset_squats():
-    global counter, stage, high_score
+    global counter, stage, high_score, hold_frames
     counter = 0
     stage = None
     high_score = 0
+    hold_frames = 0

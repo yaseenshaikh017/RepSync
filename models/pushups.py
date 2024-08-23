@@ -50,40 +50,24 @@ def gen_frames():
 
             try:
                 landmarks = results.pose_landmarks.landmark
+
+                # Get coordinates for specific landmarks
+                shoulder_y = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
+                elbow_y = landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y
+                wrist_y = landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y
+                hip_y = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y
+                knee_y = landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y
                 
-                # Get coordinates for the left shoulder, elbow, and wrist
-                shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, 
-                            landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-                elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, 
-                         landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-                wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, 
-                         landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
-                
-                # Get coordinates for the left hip and knee
-                hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, 
-                       landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-                knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, 
-                        landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
-                
-                # Calculate angles
-                elbow_angle = calculate_angle(shoulder, elbow, wrist)
-                hip_angle = calculate_angle(shoulder, hip, knee)
-                
-                # Thresholds for accuracy
-                min_elbow_angle_down = 90   # Arm bent during push-up
-                max_elbow_angle_up = 160    # Arm extended
-                min_hip_angle = 160         # Body straight
-                
-                # Push-up counter logic
-                if elbow_angle > max_elbow_angle_up and hip_angle > min_hip_angle:
-                    stage = "up"
-                if elbow_angle < min_elbow_angle_down and stage == 'up':
+                # Push-up logic based on landmark positions
+                if elbow_y > shoulder_y and elbow_y > wrist_y and hip_y > knee_y:
                     stage = "down"
+                if elbow_y < shoulder_y and elbow_y < wrist_y and hip_y < knee_y and stage == "down":
+                    stage = "up"
                     counter += 1
                     print(f"Reps: {counter}")
                     if counter > high_score:
                         high_score = counter
-                       
+
             except Exception as e:
                 print(f"Error: {e}")
 
